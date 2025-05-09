@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap');
+
+.bottom-menu {
+  position: fixed;
+  bottom: -100px; /* Start below the viewport */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2rem;
+  z-index: 1;
+  transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bottom-menu.show {
+  bottom: 2rem;
+}
+
+.menu-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: calc(var(--index) * 0.1s);
+}
+  
+.bottom-menu.show .menu-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.menu-item:nth-child(1) { --index: 1; }
+.menu-item:nth-child(2) { --index: 2; }
+.menu-item:nth-child(3) { --index: 3; }
+.menu-item:nth-child(4) { --index: 4; }
+
+.menu-item a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+}
+
+.menu-item a:hover {
+  font-size: 1.4rem;
+}
+
+.menu-item .tire-track {
+  margin-top: 0.5rem;
+  opacity: 0;
+  transition-delay: calc(var(--index));
+}
+
+.social-icon {
+  color: white;
+  font-size: 3rem;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.fa-linkedin:hover {
+  color: #0077B5;
+}
+
+.fa-github:hover {
+  color: #000000  ;
+}
+
+.fa-vercel:hover {
+  color: #000000;
+}
+
+.fa-vercel {
+  margin-top: 0.75rem;
+}
+
+.text-box {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.5s ease;
+  transition-delay: calc(var(--index) * 0.2s);
+  will-change: transform, opacity;
+}
+
+.text-box.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.text-box:nth-child(1) { --index: 1; }
+.text-box:nth-child(2) { --index: 2; }
+
+.skill-container {
+  margin-bottom: 1rem;
+}
+
+.skill-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+.progress-bar {
+  position: relative;
+  height: 0.5rem;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  background-color: #005baf;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
