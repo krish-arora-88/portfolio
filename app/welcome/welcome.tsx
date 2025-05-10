@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import './welcome.css';
 import { SiVercel } from 'react-icons/si';
 import { ImageGallery } from './ImageGallery';
+import { SkillsHoneycomb } from './SkillsHoneycomb';
 
 export function Welcome() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,9 +44,11 @@ export function Welcome() {
 
   const handleAboutClick = () => {
     setShowAbout(!showAbout);
+    setIsGalleryHighlighted(false);
   };
 
   const handleProjectsClick = () => {
+    setShowAbout(true);
     setIsGalleryHighlighted(true);
     setTimeout(() => {
       setIsGalleryHighlighted(false);
@@ -57,7 +60,7 @@ export function Welcome() {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       
       {showAbout && (
-        <div style={{
+        <div className="social-icons-container" style={{
           position: 'fixed',
           top: '2rem',
           left: '50%',
@@ -73,7 +76,7 @@ export function Welcome() {
             <i className="fa-brands fa-github"></i>
           </a>
           <a href="https://vercel.com/krish-arora" target="_blank" rel="noopener noreferrer" className="social-icon">
-            <SiVercel className="fa-vercel"/>
+            <SiVercel className="fa-brands fa-vercel"/>
           </a>
         </div>
       )}
@@ -182,7 +185,7 @@ export function Welcome() {
           <F90 />
           {showAbout && (
             <>
-              <div className={`text-box ${showAbout ? 'show' : ''}`} style={{
+              <div className={`text-box intro ${showAbout ? 'show' : ''}`} style={{
                 position: 'absolute',
                 top: '15%',
                 opacity: '0.85',
@@ -236,6 +239,9 @@ export function Welcome() {
       </div>
 
       <ImageGallery isVisible={showAbout} isHighlighted={isGalleryHighlighted} />
+
+      {/* Add SkillsHoneycomb component */}
+      <SkillsHoneycomb isVisible={showAbout} />
 
       {/* Profile Button */}
       <div className="welcome-container" style={{ top: '2rem', left: '2rem' }}>

@@ -65,7 +65,7 @@ export function E39() {
     // Load model
     const loader = new GLTFLoader();
     loader.load(
-      'app/welcome/onlycar.glb',
+      'app/welcome/E39.glb',
       (gltf: GLTF) => {
         const model = gltf.scene;
         

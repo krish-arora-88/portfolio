@@ -17,14 +17,14 @@
 
 .menu-item {
   opacity: 0;
-  transform: translateY(20px);
+  /* transform: translateY(20px); */
   transition: opacity 0.3s ease, transform 0.3s ease;
   transition-delay: calc(var(--index) * 0.1s);
 }
   
 .bottom-menu.show .menu-item {
   opacity: 1;
-  transform: translateY(0);
+  /* transform: translateY(0); */
 }
 
 .menu-item:nth-child(1) { --index: 1; }
@@ -53,11 +53,33 @@
   transition-delay: calc(var(--index));
 }
 
+.social-icons-container {
+  opacity: 0;
+  animation: fadeInDown 0.5s ease forwards;
+}
+
 .social-icon {
   color: white;
   font-size: 3rem;
   text-decoration: none;
   transition: transform 0.2s;
+  opacity: 0;
+  animation: fadeInDown 0.5s ease forwards;
+}
+
+.social-icon:nth-child(1) { animation-delay: 0.2s; }
+.social-icon:nth-child(2) { animation-delay: 0.4s; }
+.social-icon:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate(-38%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-38%, 0);
+  }
 }
 
 .fa-linkedin:hover {
@@ -73,7 +95,7 @@
 }
 
 .fa-vercel {
-  margin-top: 0.75rem;
+  margin-top: -0.5rem;
 }
 
 .text-box {
@@ -82,6 +104,18 @@
   transition: all 0.5s ease;
   transition-delay: calc(var(--index) * 0.2s);
   will-change: transform, opacity;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-50%, 50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%, 0);
+  }
 }
 
 .text-box.show {
@@ -91,6 +125,22 @@
 
 .text-box:nth-child(1) { --index: 1; }
 .text-box:nth-child(2) { --index: 2; }
+
+.intro {
+  opacity: 0;
+  animation: fadeInDown2 0.5s ease forwards;
+}
+
+@keyframes fadeInDown2 {
+  from {
+    opacity: 0;
+    transform: translateY(-50%, 50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%, 0);
+  }
+}
 
 .skill-container {
   margin-bottom: 1rem;

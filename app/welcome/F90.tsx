@@ -86,9 +86,7 @@ export function F90() {
     // Load model
     const loader = new GLTFLoader();
     loader.load(
-      'app/welcome/bmw_f90_m5_competiton.glb',
-    //   'app/welcome/onlycar.glb',
-    //   'app/welcome/car.glb',
+      'app/welcome/F90.glb',
       (gltf: GLTF) => {
         const model = gltf.scene;
         
