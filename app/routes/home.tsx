@@ -10,6 +10,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Maintenance />;
-  // return <Welcome />;
+  // return <Maintenance />;
+  return <Welcome />;
 }

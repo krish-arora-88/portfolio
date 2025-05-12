@@ -32,38 +32,10 @@ export function F90() {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
-    // Add shadow plane
-    const planeGeometry = new THREE.CircleGeometry(2, 300); // Increased size and segments
-    const planeMaterial = new THREE.MeshStandardMaterial({ 
-      color: 0x000000,
-      metalness: 0.8,
-      roughness: 0.2,
-      transparent: true,
-      opacity: 0.9,
-      envMapIntensity: 1.0
-    });
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.rotation.x = -Math.PI / 2;
-    plane.position.y = -0.49;
-    scene.add(plane);
-
     // Add a subtle rim light
     const rimLight = new THREE.PointLight(0xffffff, 0.5);
     rimLight.position.set(5, 1, -1);
     scene.add(rimLight);
-
-    // Add a subtle ground reflection
-    const reflectionGeometry = new THREE.CircleGeometry(2, 300);
-    const reflectionMaterial = new THREE.MeshBasicMaterial({
-      color: 0x28282B,
-      transparent: true,
-      opacity: 0.1,
-      side: THREE.DoubleSide
-    });
-    const reflection = new THREE.Mesh(reflectionGeometry, reflectionMaterial);
-    reflection.rotation.x = Math.PI / 2;
-    reflection.position.y = -0.49;
-    scene.add(reflection);
 
     // Camera position
     camera.position.set(0, 1.5, 4);

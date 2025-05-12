@@ -14,38 +14,24 @@ export function R34() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / (3 * window.innerHeight), // Adjust for one-third width
+      window.innerWidth / (2 * window.innerHeight),
       0.1,
       1000
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
-    renderer.setSize(window.innerWidth / 3, window.innerHeight); // Set size to one-third width
+    renderer.setSize(window.innerWidth / 2, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Add ambient light
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
+    
 
-    // Add spotlight
-    const spotlight = new THREE.SpotLight(0x277ce0, 20, 100, Math.PI / 4, 1, 1);
-    spotlight.position.set(0, 5, 0);
-    spotlight.target.position.set(0, 0, 0);
-    scene.add(spotlight);
-    scene.add(spotlight.target);
-
-    // Add shadow plane
-    const planeGeometry = new THREE.CircleGeometry(1.2, 32);
-    const planeMaterial = new THREE.MeshBasicMaterial({ 
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.15
-    });
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.rotation.x = -Math.PI / 2;
-    plane.position.y = -0.5;
-    scene.add(plane);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
 
     // Camera position
     camera.position.set(0, 1.5, 4);
@@ -79,7 +65,7 @@ export function R34() {
         
         // Calculate scale
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.2 / maxDim;
+        const scale = 3.6 / maxDim;
         
         // Create a group for the model
         const modelGroup = new THREE.Group();
@@ -90,10 +76,13 @@ export function R34() {
         // Apply scale to the group
         modelGroup.scale.set(scale, scale, scale);
         
+        // Rotate the model 180 degrees around Y axis
+        modelGroup.rotation.y = Math.PI * 2;
+        
         // Center the model by moving it to the origin
         modelGroup.position.x = -center.x * scale;
-        modelGroup.position.y = -center.y * scale - 0.2;
-        modelGroup.position.z = -center.z * scale;
+        modelGroup.position.y = -center.y * scale + 0.1;
+        modelGroup.position.z = -center.z * scale + 0.05;
         
         // Add the group to the scene
         scene.add(modelGroup);
@@ -110,11 +99,17 @@ export function R34() {
       }
     );
 
+    const spotlight = new THREE.SpotLight(0x808080, 1000, 100, Math.PI / 4, 0.1, 1);
+    spotlight.position.set(0, 10, 0);
+    spotlight.target.position.set(0, 0, 0);
+    scene.add(spotlight);
+    scene.add(spotlight.target);
+
     // Handle window resize
     const handleResize = () => {
-      camera.aspect = window.innerWidth / (3 * window.innerHeight);
+      camera.aspect = window.innerWidth / (2 * window.innerHeight);
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth / 3, window.innerHeight);
+      renderer.setSize(window.innerWidth / 2, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -139,12 +134,12 @@ export function R34() {
       ref={mountRef}
       style={{
         position: 'relative',
+        left: '-25%',
+        top: '15%',
         width: '100%',
         height: '100%',
-        bottom: '-15%',
-        left: '-1%',
         zIndex: 0
       }}
     />
   );
-}
+} 

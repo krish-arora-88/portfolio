@@ -32,18 +32,6 @@ export function E39() {
     directionalLight.position.set(5, 5, 5);
     scene.add(directionalLight);
 
-    // Add shadow plane
-    const planeGeometry = new THREE.CircleGeometry(1.2, 32);
-    const planeMaterial = new THREE.MeshBasicMaterial({ 
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.15
-    });
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.rotation.x = -Math.PI / 2;
-    plane.position.y = -0.5;
-    scene.add(plane);
-
     // Camera position
     camera.position.set(0, 1.5, 4);
     camera.lookAt(0, 0, 0);
@@ -76,7 +64,7 @@ export function E39() {
         
         // Calculate scale
         const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2.3 / maxDim;
+        const scale = 3.7 / maxDim;
         
         // Create a group for the model
         const modelGroup = new THREE.Group();
@@ -92,8 +80,8 @@ export function E39() {
         
         // Center the model by moving it to the origin
         modelGroup.position.x = -center.x * scale;
-        modelGroup.position.y = -center.y * scale - 0.18;
-        modelGroup.position.z = -center.z * scale - 0.4;
+        modelGroup.position.y = -center.y * scale + 0.1;
+        modelGroup.position.z = -center.z * scale - 0.7;
         
         // Add the group to the scene
         scene.add(modelGroup);
