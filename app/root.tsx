@@ -6,9 +6,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import { useState } from "react";
 import type { Route } from "./+types/root";
 import "./app.css";
+import { LoadingScreen } from "./LoadingScreen";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,6 +25,8 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <html lang="en">
       <head>
@@ -33,6 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        {isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
         {children}
         <ScrollRestoration />
         <Scripts />

@@ -1,6 +1,6 @@
 .skills-honeycomb {
   position: fixed;
-  bottom: 5rem;
+  bottom: 8rem;
   right: -0.3rem;
   width: 30%;
   z-index: 10;
@@ -54,7 +54,7 @@
   position: relative;
   width: 80px;
   height: 92px;
-  margin: -10px 7.5px;
+  margin: -8px 4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,6 +134,12 @@
 .honeycomb-row:nth-child(4) .hexagon:nth-child(1) { --delay: 12; }
 .honeycomb-row:nth-child(4) .hexagon:nth-child(2) { --delay: 13; }
 .honeycomb-row:nth-child(4) .hexagon:nth-child(3) { --delay: 14; }
+
+/* Fifth row delays */
+.honeycomb-row:nth-child(5) .hexagon:nth-child(1) { --delay: 15; }
+.honeycomb-row:nth-child(5) .hexagon:nth-child(2) { --delay: 16; }
+.honeycomb-row:nth-child(5) .hexagon:nth-child(3) { --delay: 17; }
+.honeycomb-row:nth-child(5) .hexagon:nth-child(4) { --delay: 18; }
 
 .honeycomb-row .hexagon::before,
 .honeycomb-row .hexagon::after {
@@ -224,5 +230,31 @@
   
   .honeycomb-row.staggered-row {
     margin-left: 20px;
+  }
+}
+
+.hexagon.highlighted {
+  filter: drop-shadow(0 0 10px rgba(125, 249, 255, 1));
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.hexagon.highlighted::after {
+  opacity: 1;
+}
+
+.hexagon.highlighted::before {
+  background-color: #003b6f;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
   }
 } 

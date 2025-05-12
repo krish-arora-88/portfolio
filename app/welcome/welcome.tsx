@@ -11,6 +11,8 @@ export function Welcome() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [isGalleryHighlighted, setIsGalleryHighlighted] = useState(false);
+  const [highlightedSkills, setHighlightedSkills] = useState<string[]>([]);
+  const [currentCar, setCurrentCar] = useState<'F90' | 'E39' | 'R34'>('F90');
   const skillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,6 +57,23 @@ export function Welcome() {
     }, 3000);
   };
 
+  const handleProjectChange = (skills: string[]) => {
+    setHighlightedSkills(skills);
+  };
+
+  // Function to render the currently selected car component
+  const renderCarComponent = () => {
+    switch (currentCar) {
+      case 'E39':
+        return <E39 />;
+      case 'R34':
+        return <R34 />;
+      case 'F90':
+      default:
+        return <F90 />;
+    }
+  };
+
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -88,10 +107,7 @@ export function Welcome() {
         justifyContent: 'center',
         alignItems: 'center',
         gap: '0',
-        // backgroundImage: 'url("app/assets/ChatGPT Image May 8, 2025, 11_45_20 AM.png")',
-        // backgroundImage: 'url("app/assets/ChatGPT Image May 8, 2025, 12_01_19 PM.png")',
         backgroundImage: 'url("app/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png")',
-        // backgroundImage: 'url("app/assets/ChatGPT Image May 8, 2025, 11_38_16 AM.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -104,7 +120,6 @@ export function Welcome() {
           alignItems: 'center',
           position: 'relative'
         }}>
-          <E39 />
           {showAbout && (
             <div className={`text-box ${showAbout ? 'show' : ''}`} style={{
               position: 'absolute',
@@ -182,7 +197,7 @@ export function Welcome() {
           alignItems: 'center',
           position: 'relative'
         }}>
-          <F90 />
+          {renderCarComponent()}
           {showAbout && (
             <>
               <div className={`text-box intro ${showAbout ? 'show' : ''}`} style={{
@@ -217,7 +232,6 @@ export function Welcome() {
           alignItems: 'center',
           position: 'relative'
         }}>
-          <R34 />
         </div>
       </div>
 
@@ -238,16 +252,50 @@ export function Welcome() {
         main menu
       </div>
 
-      <ImageGallery isVisible={showAbout} isHighlighted={isGalleryHighlighted} />
+      <ImageGallery 
+        isVisible={showAbout} 
+        isHighlighted={isGalleryHighlighted} 
+        onProjectChange={handleProjectChange}
+      />
 
-      {/* Add SkillsHoneycomb component */}
-      <SkillsHoneycomb isVisible={showAbout} />
+      <SkillsHoneycomb 
+        isVisible={showAbout} 
+        highlightedSkills={highlightedSkills}
+      />
 
       {/* Profile Button */}
       <div className="welcome-container" style={{ top: '2rem', left: '2rem' }}>
         <button className="name" onClick={toggleMenu}>
-          <img src="app/welcome/prof.jpg" alt="Profile" className="profile-image" />
+          <img src="app/assets/prof.jpg" alt="Profile" className="profile-image" />
           <span className="text">Krish Arora</span>
+          <div className="tire-track"></div>
+        </button>
+      </div>
+      
+      {/* Car Selection Buttons */}
+      <div className={`car-selection-container ${isMenuOpen ? 'show' : ''}`}>
+        <button 
+          className={`car-select-button ${currentCar === 'F90' ? 'active' : ''}`} 
+          onClick={() => setCurrentCar('F90')}
+        >
+          <img src="app/assets/BMW.png" alt="BMW" className="brand-logo" />
+          <span>M5 F90</span>
+          <div className="tire-track"></div>
+        </button>
+        <button 
+          className={`car-select-button ${currentCar === 'E39' ? 'active' : ''}`} 
+          onClick={() => setCurrentCar('E39')}
+        >
+          <img src="app/assets/BMW.png" alt="BMW" className="brand-logo" />
+          <span>M5 E39</span>
+          <div className="tire-track"></div>
+        </button>
+        <button 
+          className={`car-select-button ${currentCar === 'R34' ? 'active' : ''}`} 
+          onClick={() => setCurrentCar('R34')}
+        >
+          <img src="app/assets/nissan.png" alt="Nissan" className="brand-logo" />
+          <span>GTR R34</span>
           <div className="tire-track"></div>
         </button>
       </div>
@@ -255,15 +303,15 @@ export function Welcome() {
       {/* Bottom Menu */}
       <div className={`bottom-menu ${isMenuOpen ? 'show' : ''}`}>
         <div className="menu-item">
+          <a onClick={handleAboutClick}>About</a>
+          <div className="tire-track"></div>
+        </div>
+        <div className="menu-item">
           <a href='https://drive.google.com/file/d/1t8BJW9OKcWgaFLYp9LPgdLBqBviKpZ--/view?usp=sharing' target="_blank">Resume</a>
           <div className="tire-track"></div>
         </div>
         <div className="menu-item">
           <a onClick={handleProjectsClick}>Projects</a>
-          <div className="tire-track"></div>
-        </div>
-        <div className="menu-item">
-          <a onClick={handleAboutClick}>About</a>
           <div className="tire-track"></div>
         </div>
         <div className="menu-item">

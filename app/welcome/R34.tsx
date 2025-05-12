@@ -68,7 +68,7 @@ export function R34() {
     // Load model
     const loader = new GLTFLoader();
     loader.load(
-      'app/welcome/r34.glb',
+      'app/assets/CarModels/r34.glb',
       (gltf: GLTF) => {
         const model = gltf.scene;
         

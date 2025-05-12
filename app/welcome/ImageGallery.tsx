@@ -4,33 +4,42 @@ import './ImageGallery.css';
 interface ImageGalleryProps {
   isVisible: boolean;
   isHighlighted?: boolean;
+  onProjectChange?: (skills: string[]) => void;
 }
 
-export function ImageGallery({ isVisible, isHighlighted = false }: ImageGalleryProps) {
+export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const autoScrollRef = useRef<NodeJS.Timeout | null>(null);
 
   const images = [
     {
-      url: 'app/assets/ChatGPT Image May 8, 2025, 11_38_16 AM.png',
-      title: 'Project 1'
+      url: 'app/assets/PetAdoptionHomePage.png',
+      title: 'Pet Adoption Platform',
+      link: 'https://github.com/krish-arora-88/pet-adoption-platform',
+      skills: ['Node.js', 'MySQL', 'VS Code']
     },
     {
-      url: 'app/assets/ChatGPT Image May 8, 2025, 11_41_08 AM.png',
-      title: 'Project 2'
+      url: 'app/assets/UBConnectPages.png',
+      title: 'UBConnect',
+      link: 'https://github.com/DorisWZhang/UBConnect',
+      skills: ['React', 'TypeScript', 'VS Code']
     },
     {
-      url: 'app/assets/ChatGPT Image May 8, 2025, 11_45_20 AM.png',
-      title: 'Project 3'
+      url: 'app/assets/popggpage.png',
+      title: 'POP.GG',
+      link: 'https://github.com/coolncrazee/popgg',
+      skills: ['React', 'VS Code']
     },
     {
-      url: 'app/assets/ChatGPT Image May 8, 2025, 12_01_19 PM.png',
-      title: 'Project 4'
+      url: 'app/assets/gokartingpage.png',
+      title: 'Go Karting Booking System',
+      skills: ['Java', 'IntelliJ']
     },
     {
       url: 'app/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png',
-      title: 'Project 5'
+      title: 'PeerSafe',
+      skills: ['React', 'VS Code']
     }
   ];
 
@@ -56,6 +65,12 @@ export function ImageGallery({ isVisible, isHighlighted = false }: ImageGalleryP
     };
   }, [isVisible, isPaused]);
 
+  useEffect(() => {
+    if (onProjectChange) {
+      onProjectChange(images[currentIndex].skills);
+    }
+  }, [currentIndex, onProjectChange]);
+
   if (!isVisible) return null;
 
   return (
@@ -70,11 +85,21 @@ export function ImageGallery({ isVisible, isHighlighted = false }: ImageGalleryP
         </button>
         
         <div className="image-container">
-          <img 
-            src={images[currentIndex].url} 
-            alt={images[currentIndex].title}
-            className="gallery-image"
-          />
+          {images[currentIndex].link ? (
+            <a href={images[currentIndex].link} target="_blank" rel="noopener noreferrer">
+              <img 
+                src={images[currentIndex].url} 
+                alt={images[currentIndex].title}
+                className="gallery-image"
+              />
+            </a>
+          ) : (
+            <img 
+              src={images[currentIndex].url} 
+              alt={images[currentIndex].title}
+              className="gallery-image"
+            />
+          )}
           <div className="image-title">
             {images[currentIndex].title}
           </div>
