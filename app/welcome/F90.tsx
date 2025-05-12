@@ -58,7 +58,7 @@ export function F90() {
     // Load model
     const loader = new GLTFLoader();
     loader.load(
-      'app/assets/CarModels/F90.glb',
+      '/assets/CarModels/F90.glb',
       (gltf: GLTF) => {
         const model = gltf.scene;
         
