@@ -14,30 +14,30 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
 
   const images = [
     {
-      url: 'app/assets/PetAdoptionHomePage.png',
+      url: '/assets/PetAdoptionHomePage.png',
       title: 'Pet Adoption Platform',
       link: 'https://github.com/krish-arora-88/pet-adoption-platform',
       skills: ['Node.js', 'MySQL', 'VS Code']
     },
     {
-      url: 'app/assets/UBConnectPages.png',
+      url: '/assets/UBConnectPages.png',
       title: 'UBConnect',
       link: 'https://github.com/DorisWZhang/UBConnect',
       skills: ['React', 'TypeScript', 'VS Code']
     },
     {
-      url: 'app/assets/popggpage.png',
+      url: '/assets/popggpage.png',
       title: 'POP.GG',
       link: 'https://github.com/coolncrazee/popgg',
       skills: ['React', 'VS Code']
     },
     {
-      url: 'app/assets/gokartingpage.png',
+      url: '/assets/gokartingpage.png',
       title: 'Go Karting Booking System',
       skills: ['Java', 'IntelliJ']
     },
     {
-      url: 'app/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png',
+      url: '/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png',
       title: 'PeerSafe',
       skills: ['React', 'VS Code']
     }

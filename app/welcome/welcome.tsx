@@ -107,7 +107,7 @@ export function Welcome() {
         justifyContent: 'center',
         alignItems: 'center',
         gap: '0',
-        backgroundImage: 'url("app/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png")',
+        backgroundImage: 'url("/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -266,7 +266,7 @@ export function Welcome() {
       {/* Profile Button */}
       <div className="welcome-container" style={{ top: '2rem', left: '2rem' }}>
         <button className="name" onClick={toggleMenu}>
-          <img src="app/assets/prof.jpg" alt="Profile" className="profile-image" />
+          <img src="/assets/prof.jpg" alt="Profile" className="profile-image" />
           <span className="text">Krish Arora</span>
           <div className="tire-track"></div>
         </button>
@@ -278,7 +278,7 @@ export function Welcome() {
           className={`car-select-button ${currentCar === 'F90' ? 'active' : ''}`} 
           onClick={() => setCurrentCar('F90')}
         >
-          <img src="app/assets/BMW.png" alt="BMW" className="brand-logo" />
+          <img src="/assets/BMW.png" alt="BMW" className="brand-logo" />
           <span>M5 F90</span>
           <div className="tire-track"></div>
         </button>
@@ -286,7 +286,7 @@ export function Welcome() {
           className={`car-select-button ${currentCar === 'E39' ? 'active' : ''}`} 
           onClick={() => setCurrentCar('E39')}
         >
-          <img src="app/assets/BMW.png" alt="BMW" className="brand-logo" />
+          <img src="/assets/BMW.png" alt="BMW" className="brand-logo" />
           <span>M5 E39</span>
           <div className="tire-track"></div>
         </button>
@@ -294,7 +294,7 @@ export function Welcome() {
           className={`car-select-button ${currentCar === 'R34' ? 'active' : ''}`} 
           onClick={() => setCurrentCar('R34')}
         >
-          <img src="app/assets/nissan.png" alt="Nissan" className="brand-logo" />
+          <img src="/assets/nissan.png" alt="Nissan" className="brand-logo" />
           <span>GTR R34</span>
           <div className="tire-track"></div>
         </button>
