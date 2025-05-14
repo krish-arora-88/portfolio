@@ -37,9 +37,10 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
       skills: ['Java', 'IntelliJ']
     },
     {
-      url: '/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png',
-      title: 'PeerSafe',
-      skills: ['React', 'VS Code']
+      url: 'public/assets/JobDistillTerminal.png',
+      title: 'JobDistill',
+      link: 'https://github.com/krish-arora-88/JobDistill',
+      skills: ['Python', 'VS Code']
     }
   ];
 
