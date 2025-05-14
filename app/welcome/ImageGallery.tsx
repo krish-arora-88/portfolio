@@ -37,7 +37,7 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
       skills: ['Java', 'IntelliJ']
     },
     {
-      url: 'public/assets/JobDistillTerminal.png',
+      url: '/assets/JobDistillTerminal.png',
       title: 'JobDistill',
       link: 'https://github.com/krish-arora-88/JobDistill',
       skills: ['Python', 'VS Code']
