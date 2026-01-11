@@ -307,7 +307,7 @@ export function Welcome() {
           <div className="tire-track"></div>
         </div>
         <div className="menu-item">
-          <a href='https://drive.google.com/file/d/1t8BJW9OKcWgaFLYp9LPgdLBqBviKpZ--/view?usp=sharing' target="_blank">Resume</a>
+          <a href='https://drive.google.com/file/d/1obUiCDj8K6ntrpIBOsjba0V2CO9IEpBr/preview' target="_blank">Resume</a>
           <div className="tire-track"></div>
         </div>
         <div className="menu-item">
