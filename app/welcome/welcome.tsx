@@ -216,7 +216,7 @@ export function Welcome() {
                 border: '1px solid rgba(255, 255, 255, 0.1)'
               }}>
                 <h3>Hello!</h3>
-                <p>I'm Krish Arora, a Junior Mathematics student at the University of British Columbia, Vancouver. 
+                <p>I'm Krish Arora, a Senior Mathematics student at the University of British Columbia, Vancouver. 
                   With a passion for technology alongside a curious and eager to learn personality, I'm always looking 
                   for new opportunities to grow and expand my knowledge. I have some quite interesting projects that 
                   I'm proud of. Feel free to stick around and check them out!</p>
