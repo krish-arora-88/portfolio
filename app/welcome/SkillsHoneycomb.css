@@ -1,24 +1,16 @@
 .skills-honeycomb {
   position: fixed;
-  bottom: 6rem;
+  bottom: 3rem;
   right: -0.3rem;
   width: 30%;
   z-index: 10;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 :root {
-  --color-2: #005baf;
-  --color-3: #404040;
-  --script-font: 'Courier New', monospace;
+  --hex-color: #005baf;
+  --hex-dark: #003b6f;
+  --hex-border: #404040;
+  --hex-glow: rgba(125, 249, 255, 1);
 }
 
 .skills {
@@ -32,7 +24,7 @@
   max-width: 600px;
   display: flex;
   flex-direction: column;
-  padding: 0px;
+  padding: 0;
   background-color: transparent;
   border-radius: 10px;
   border: none;
@@ -42,13 +34,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   flex-wrap: wrap;
   padding: 10px 0;
 }
 
 .honeycomb-row {
   display: flex;
+  justify-content: center;
 }
+
+.honeycomb-row:last-child {
+  transform: translateX(-44px);
+}
+
+/* ── Hexagon base ── */
 
 .honeycomb-row .hexagon {
   position: relative;
@@ -58,30 +58,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1;
   opacity: 0;
   transform: scale(0.5);
   animation: hexagonAppear 0.5s ease forwards;
-  animation-delay: calc(var(--delay) * 0.1s);
+  animation-delay: calc(var(--delay, 0) * 0.1s);
+  cursor: pointer;
 }
 
 .honeycomb-row .hexagon .skill-name {
   position: absolute;
   color: white;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 700;
   text-align: center;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 3;
   padding: 0 5px;
   pointer-events: none;
-  font-weight: bold;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.3px;
 }
 
 .honeycomb-row .hexagon img {
-  width: 45px;
-  height: 45px;
+  width: 42px;
+  height: 42px;
   background-color: transparent;
   padding: 0;
   position: relative;
@@ -89,6 +92,8 @@
   transition: all 0.3s ease;
   object-fit: contain;
 }
+
+/* ── Hover ── */
 
 .honeycomb-row .hexagon:hover img {
   opacity: 0;
@@ -98,9 +103,75 @@
   opacity: 1;
 }
 
-.honeycomb-row .hexagon:hover::before {
-  background-color: #003b6f; /* Darker version of var(--color-2) */
+.honeycomb-row .hexagon:hover {
+  filter: drop-shadow(0 0 12px var(--hex-glow));
 }
+
+.honeycomb-row .hexagon:hover::before {
+  background-color: var(--hex-dark);
+}
+
+.honeycomb-row .hexagon:hover::after {
+  opacity: 1;
+}
+
+/* ── Hexagon shape (clip-path) ── */
+
+.honeycomb-row .hexagon::before,
+.honeycomb-row .hexagon::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: all 0.4s ease;
+  clip-path: polygon(0 25%, 50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%);
+}
+
+.honeycomb-row .hexagon::before {
+  background-color: var(--hex-color);
+  z-index: 1;
+}
+
+.honeycomb-row .hexagon::after {
+  background-color: var(--hex-border);
+  z-index: -1;
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+/* ── Highlighted state ── */
+
+.hexagon.highlighted {
+  filter: drop-shadow(0 0 15px var(--hex-glow));
+  transform: scale(1.1);
+  z-index: 2;
+  animation: hexagonAppear 0.5s ease forwards, pulseGlow 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--delay, 0) * 0.1s), 0s;
+}
+
+.hexagon.highlighted::before {
+  background-color: var(--hex-dark);
+}
+
+.hexagon.highlighted::after {
+  opacity: 1;
+}
+
+/* ── Dimmed state (non-highlighted when a project is active) ── */
+
+.hexagon.dimmed {
+  opacity: 0.3;
+  filter: saturate(0.15) brightness(0.6);
+}
+
+.hexagon.dimmed:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px var(--hex-glow)) saturate(1) brightness(1);
+}
+
+/* ── Animations ── */
 
 @keyframes hexagonAppear {
   from {
@@ -113,89 +184,22 @@
   }
 }
 
-/* First row delays */
-.honeycomb-row:nth-child(1) .hexagon:nth-child(1) { --delay: 1; }
-.honeycomb-row:nth-child(1) .hexagon:nth-child(2) { --delay: 2; }
-.honeycomb-row:nth-child(1) .hexagon:nth-child(3) { --delay: 3; }
-.honeycomb-row:nth-child(1) .hexagon:nth-child(4) { --delay: 4; }
-
-/* Second row delays */
-.honeycomb-row:nth-child(2) .hexagon:nth-child(1) { --delay: 5; }
-.honeycomb-row:nth-child(2) .hexagon:nth-child(2) { --delay: 6; }
-.honeycomb-row:nth-child(2) .hexagon:nth-child(3) { --delay: 7; }
-
-/* Third row delays */
-.honeycomb-row:nth-child(3) .hexagon:nth-child(1) { --delay: 8; }
-.honeycomb-row:nth-child(3) .hexagon:nth-child(2) { --delay: 9; }
-.honeycomb-row:nth-child(3) .hexagon:nth-child(3) { --delay: 10; }
-.honeycomb-row:nth-child(3) .hexagon:nth-child(4) { --delay: 11; }
-
-/* Fourth row delays */
-.honeycomb-row:nth-child(4) .hexagon:nth-child(1) { --delay: 12; }
-.honeycomb-row:nth-child(4) .hexagon:nth-child(2) { --delay: 13; }
-.honeycomb-row:nth-child(4) .hexagon:nth-child(3) { --delay: 14; }
-
-/* Fifth row delays */
-.honeycomb-row:nth-child(5) .hexagon:nth-child(1) { --delay: 15; }
-.honeycomb-row:nth-child(5) .hexagon:nth-child(2) { --delay: 16; }
-.honeycomb-row:nth-child(5) .hexagon:nth-child(3) { --delay: 17; }
-.honeycomb-row:nth-child(5) .hexagon:nth-child(4) { --delay: 18; }
-
-.honeycomb-row .hexagon::before,
-.honeycomb-row .hexagon::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  transition: all 0.3s ease;
-  clip-path: polygon(0 25%, 50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%);
+@keyframes pulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 12px var(--hex-glow));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px var(--hex-glow)) drop-shadow(0 0 44px rgba(125, 249, 255, 0.25));
+  }
 }
 
-.honeycomb-row .hexagon::before {
-  background-color: var(--color-2);
-  z-index: 1;
-}
-
-.honeycomb-row .hexagon::after {
-  background-color: var(--color-3);
-  z-index: -1;
-  opacity: 0;
-  transform: scale(1.05);
-}
-
-.honeycomb-row .hexagon:hover {
-  filter: drop-shadow(0 0 10px rgba(125, 249, 255, 1));
-}
-
-.honeycomb-row .hexagon:hover::after {
-  opacity: 1;
-}
-
-.category-title {
-  font-family: var(--script-font);
-  font-size: 20px;
-  color: white;
-  background: linear-gradient(90deg, #915EFF, #00BFFF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-align: left;
-  padding: 15px 0 5px 15px;
-  margin: 0;
-}
-
-.category-title.bottom {
-  text-align: right;
-  padding: 5px 15px 15px 0;
-}
+/* ── Responsive ── */
 
 @media (max-width: 768px) {
   .skills-honeycomb {
     width: 40%;
   }
-  
+
   .honeycomb-row .hexagon {
     width: 60px;
     height: 70px;
@@ -211,13 +215,9 @@
     margin-left: 30px;
   }
 
-  .category-title {
-    font-size: 16px;
-    padding: 10px 0 5px 10px;
-  }
-  
-  .category-title.bottom {
-    padding: 5px 10px 10px 0;
+  .honeycomb-row.staggered-row:last-child {
+    margin-left: 0;
+    transform: translateX(-35px);
   }
 }
 
@@ -225,36 +225,15 @@
   .skills-honeycomb {
     width: 70%;
     right: 1rem;
-    bottom: 5rem;
+    bottom: 1rem;
   }
-  
+
   .honeycomb-row.staggered-row {
     margin-left: 20px;
   }
-}
 
-.hexagon.highlighted {
-  filter: drop-shadow(0 0 10px rgba(125, 249, 255, 1));
-  transform: scale(1.1);
-  z-index: 1;
-}
-
-.hexagon.highlighted::after {
-  opacity: 1;
-}
-
-.hexagon.highlighted::before {
-  background-color: #003b6f;
-}
-
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  .honeycomb-row.staggered-row:last-child {
+    margin-left: 0;
+    transform: translateX(-35px);
   }
-  50% {
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-  }
-  100% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-  }
-} 
+}

@@ -6,112 +6,85 @@ interface SkillsHoneycombProps {
   highlightedSkills?: string[];
 }
 
+const skills = [
+  // Row 1 — Frameworks & Runtimes
+  { name: 'Next.js', icon: 'https://cdn.simpleicons.org/nextdotjs/white' },
+  { name: 'React Native', icon: '/assets/reactjs.png' },
+  { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/5FA04E' },
+  { name: 'Express.js', icon: 'https://cdn.simpleicons.org/express/white' },
+
+  // Row 2 — Languages & Core
+  { name: 'TypeScript', icon: '/assets/typescript.png' },
+  { name: 'Java', icon: '/assets/java.png' },
+  { name: 'Spring Boot', icon: 'https://cdn.simpleicons.org/springboot/6DB33F' },
+
+  // Row 3 — Data & Cloud
+  { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1' },
+  { name: 'MongoDB', icon: 'https://cdn.simpleicons.org/mongodb/47A248' },
+  { name: 'Redis', icon: 'https://cdn.simpleicons.org/redis/FF4438' },
+  { name: 'Firebase', icon: 'https://cdn.simpleicons.org/firebase/DD2C00' },
+
+  // Row 4 — Infrastructure & Tooling
+  { name: 'Prisma', icon: 'https://cdn.simpleicons.org/prisma/white' },
+  { name: 'Apache Kafka', icon: 'https://cdn.simpleicons.org/apachekafka/white' },
+  { name: 'TailwindCSS', icon: 'https://cdn.simpleicons.org/tailwindcss/06B6D4' },
+
+  // Row 5 — Testing & Auth
+  { name: 'Jest', icon: 'https://cdn.simpleicons.org/jest/C21325' },
+  { name: 'Mocha', icon: 'https://cdn.simpleicons.org/mocha/8D6748' },
+  { name: 'Chai', icon: 'https://cdn.simpleicons.org/chai/A30701' },
+  { name: 'Passport.js', icon: 'https://cdn.simpleicons.org/passport/34E27A' },
+
+  // Row 6 — AI & Design
+  { name: 'OpenAI API', icon: '/assets/openai.svg' },
+  { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E' },
+];
+
+const rowSizes = [4, 3, 4, 3, 4, 2];
+
 export function SkillsHoneycomb({ isVisible, highlightedSkills = [] }: SkillsHoneycombProps) {
   if (!isVisible) return null;
 
-  const isSkillHighlighted = (skillName: string) => {
-    return highlightedSkills.includes(skillName);
-  };
+  const hasHighlights = highlightedSkills.length > 0;
+
+  const rows: (typeof skills)[] = [];
+  let idx = 0;
+  for (const size of rowSizes) {
+    rows.push(skills.slice(idx, idx + size));
+    idx += size;
+  }
 
   return (
     <div className="skills-honeycomb">
       <div className="skills">
         <div className="container">
           <div className="honeycomb-grid">
-            {/* First row */}
-            <div className="honeycomb-row">
-              <div className={`hexagon ${isSkillHighlighted('Java') ? 'highlighted' : ''}`}>
-                <img src="/assets/java.png" alt="Java" />
-                <div className="skill-name">Java</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('JavaScript') ? 'highlighted' : ''}`}>
-                <img src="/assets/javascript.png" alt="JavaScript" />
-                <div className="skill-name">JavaScript</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('TypeScript') ? 'highlighted' : ''}`}>
-                <img src="/assets/typescript.png" alt="TypeScript" />
-                <div className="skill-name">TypeScript</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Python') ? 'highlighted' : ''}`}>
-                <img src="/assets/python.png" alt="Python" />
-                <div className="skill-name">Python</div>
-              </div>
-            </div>
-            
-            {/* Second row */}
-            <div className="honeycomb-row staggered-row">
-              <div className={`hexagon ${isSkillHighlighted('C++') ? 'highlighted' : ''}`}>
-                <img src="/assets/c++.svg" alt="C++" />
-                <div className="skill-name">C++</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Golang') ? 'highlighted' : ''}`}>
-                <img src="https://go.dev/blog/go-brand/Go-Logo/PNG/Go-Logo_Aqua.png" alt="Go" />
-                <div className="skill-name">Golang</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('MySQL') ? 'highlighted' : ''}`}>
-                <img src="/assets/mysql.png" alt="MySQL" />
-                <div className="skill-name">MySQL</div>
-              </div>
-            </div>
-            
-            {/* Third row */}
-            <div className="honeycomb-row">
-              <div className={`hexagon ${isSkillHighlighted('React') ? 'highlighted' : ''}`}>
-                <img src="/assets/reactjs.png" alt="React" />
-                <div className="skill-name">React</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('HTML') ? 'highlighted' : ''}`}>
-                <img src="/assets/html.png" alt="HTML" />
-                <div className="skill-name">HTML</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('CSS') ? 'highlighted' : ''}`}>
-                <img src="/assets/css.png" alt="CSS" />
-                <div className="skill-name">CSS</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Node.js') ? 'highlighted' : ''}`}>
-                <img src="https://nodejs.org/static/images/logo.svg" alt="Node.js" />
-                <div className="skill-name">Node.js</div>
-              </div>
-            </div>
-            
-            {/* Fourth row */}
-            <div className="honeycomb-row staggered-row">
-              <div className={`hexagon ${isSkillHighlighted('VS Code') ? 'highlighted' : ''}`}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="VSCode" />
-                <div className="skill-name">VS Code</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('IntelliJ') ? 'highlighted' : ''}`}>
-                <img src="/assets/IntelliJ_IDEA_icon.svg" alt="IntelliJ IDEA" />
-                <div className="skill-name">IntelliJ IDEA</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Eclipse') ? 'highlighted' : ''}`}>
-                <img src="/assets/eclipse.png" alt="Eclipse" />
-                <div className="skill-name">Eclipse</div>
-              </div>
-            </div>
-
-            {/* Fifth row */}
-            <div className="honeycomb-row">
-              <div className={`hexagon ${isSkillHighlighted('AWS') ? 'highlighted' : ''}`}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS" />
-                <div className="skill-name">AWS</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Azure') ? 'highlighted' : ''}`}>
-                <img src="/assets/azure.png" alt="Azure" />
-                <div className="skill-name">Azure</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Git') ? 'highlighted' : ''}`}>
-                <img src="/assets/git.png" alt="Git" />
-                <div className="skill-name">Git</div>
-              </div>
-              <div className={`hexagon ${isSkillHighlighted('Shell') ? 'highlighted' : ''}`}>
-                <img src="/assets/shell.png" alt="Shell" />
-                <div className="skill-name">Shell</div>
-              </div>
-            </div>
+            {rows.map((row, rowIdx) => {
+              const baseDelay = rowSizes.slice(0, rowIdx).reduce((a, b) => a + b, 0);
+              return (
+                <div
+                  key={rowIdx}
+                  className={`honeycomb-row${rowIdx % 2 === 1 ? ' staggered-row' : ''}`}
+                >
+                  {row.map((skill, colIdx) => {
+                    const isHighlighted = highlightedSkills.includes(skill.name);
+                    return (
+                      <div
+                        key={skill.name}
+                        className={`hexagon${isHighlighted ? ' highlighted' : ''}${hasHighlights && !isHighlighted ? ' dimmed' : ''}`}
+                        style={{ '--delay': baseDelay + colIdx } as React.CSSProperties}
+                      >
+                        <img src={skill.icon} alt={skill.name} />
+                        <div className="skill-name">{skill.name}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}

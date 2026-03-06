@@ -14,33 +14,28 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
 
   const images = [
     {
+      url: '/assets/DreamCar.png',
+      title: 'DreamCar',
+      link: 'https://dreamcar-lovat.vercel.app/',
+      skills: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'OpenAI API', 'Redis', 'TailwindCSS']
+    },
+    {
       url: '/assets/PetAdoptionHomePage.png',
-      title: 'Pet Adoption Platform',
-      link: 'https://github.com/krish-arora-88/pet-adoption-platform',
-      skills: ['Node.js', 'MySQL', 'VS Code']
+      title: 'PetAdopt BC',
+      link: 'https://pet-adoption-platform-two.vercel.app/',
+      skills: ['Node.js', 'Express.js', 'MongoDB', 'Passport.js', 'Mocha', 'Chai']
     },
     {
-      url: '/assets/UBConnectPages.png',
+      url: '/assets/Apex.png',
+      title: 'Apex Go-Karting Booking System',
+      link: 'https://apex-racing-gokarting.vercel.app/',
+      skills: ['Spring Boot', 'Java', 'Next.js', 'Apache Kafka', 'Redis']
+    },
+    {
+      url: '/assets/UBConnect.png',
       title: 'UBConnect',
-      link: 'https://github.com/DorisWZhang/UBConnect',
-      skills: ['React', 'TypeScript', 'VS Code']
-    },
-    {
-      url: '/assets/popggpage.png',
-      title: 'POP.GG',
-      link: 'https://github.com/coolncrazee/popgg',
-      skills: ['React', 'VS Code']
-    },
-    {
-      url: '/assets/gokartingpage.png',
-      title: 'Go Karting Booking System',
-      skills: ['Java', 'IntelliJ']
-    },
-    {
-      url: '/assets/JobDistillTerminal.png',
-      title: 'JobDistill',
-      link: 'https://github.com/krish-arora-88/JobDistill',
-      skills: ['Python', 'VS Code']
+      link: 'https://www.youtube.com/shorts/22sCW8aNNCk',
+      skills: ['React Native', 'TypeScript', 'Figma', 'Firebase', 'Jest']
     }
   ];
 
@@ -75,7 +70,7 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
   if (!isVisible) return null;
 
   return (
-    <div 
+    <div
       className={`image-gallery ${isHighlighted ? 'highlighted' : ''}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -84,19 +79,19 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
         <button className="nav-button prev" onClick={prevImage}>
           <i className="fas fa-chevron-left"></i>
         </button>
-        
+
         <div className="image-container">
           {images[currentIndex].link ? (
             <a href={images[currentIndex].link} target="_blank" rel="noopener noreferrer">
-              <img 
-                src={images[currentIndex].url} 
+              <img
+                src={images[currentIndex].url}
                 alt={images[currentIndex].title}
                 className="gallery-image"
               />
             </a>
           ) : (
-            <img 
-              src={images[currentIndex].url} 
+            <img
+              src={images[currentIndex].url}
               alt={images[currentIndex].title}
               className="gallery-image"
             />
@@ -110,10 +105,10 @@ export function ImageGallery({ isVisible, isHighlighted = false, onProjectChange
           <i className="fas fa-chevron-right"></i>
         </button>
       </div>
-      
+
       <div className="image-dots">
         {images.map((_, index) => (
-          <span 
+          <span
             key={index}
             className={`dot ${index === currentIndex ? 'active' : ''}`}
             onClick={() => setCurrentIndex(index)}
