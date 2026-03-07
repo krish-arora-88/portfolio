@@ -14,13 +14,13 @@ export function F90() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / (2 * window.innerHeight), // Adjust aspect ratio for half width
+      window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
-    renderer.setSize(window.innerWidth / 2, window.innerHeight); // Set size to half width
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
 
@@ -92,11 +92,6 @@ export function F90() {
         controls.target.set(0, 0, 0);
         controls.update();
         
-        // Log positions for debugging
-        console.log('Original center:', center);
-        console.log('Model group position:', modelGroup.position);
-        console.log('Model group scale:', modelGroup.scale);
-        
         // Add a small sphere at the origin for debugging
         // const sphere = new THREE.Mesh(
         //   new THREE.SphereGeometry(0.1, 16, 16),
@@ -104,12 +99,8 @@ export function F90() {
         // );
         // scene.add(sphere);
       },
-      (progress: ProgressEvent) => {
-        console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
-      },
-      (error: unknown) => {
-        console.error('Error loading model:', error);
-      }
+      undefined,
+      undefined
     );
 
     const spotlight = new THREE.SpotLight(0x808080, 1000, 100, Math.PI / 4, 0.1, 1);
@@ -120,9 +111,9 @@ export function F90() {
 
     // Handle window resize
     const handleResize = () => {
-      camera.aspect = window.innerWidth / (2 * window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth / 2, window.innerHeight);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -146,12 +137,11 @@ export function F90() {
     <div
       ref={mountRef}
       style={{
-        position: 'relative',
-        left: '-25.5%',
-        top: '15%',
-        width: '100%',
-        height: '100%',
-        zIndex: 0
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     />
   );

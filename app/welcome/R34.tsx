@@ -14,13 +14,13 @@ export function R34() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / (2 * window.innerHeight),
+      window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
-    renderer.setSize(window.innerWidth / 2, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     mountRef.current.appendChild(renderer.domElement);
 
@@ -91,12 +91,8 @@ export function R34() {
         controls.target.set(0, 0, 0);
         controls.update();
       },
-      (progress: ProgressEvent) => {
-        console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
-      },
-      (error: unknown) => {
-        console.error('Error loading model:', error);
-      }
+      undefined,
+      undefined
     );
 
     const spotlight = new THREE.SpotLight(0x808080, 1000, 100, Math.PI / 4, 0.1, 1);
@@ -107,9 +103,9 @@ export function R34() {
 
     // Handle window resize
     const handleResize = () => {
-      camera.aspect = window.innerWidth / (2 * window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth / 2, window.innerHeight);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -133,12 +129,11 @@ export function R34() {
     <div
       ref={mountRef}
       style={{
-        position: 'relative',
-        left: '-25%',
-        top: '15%',
-        width: '100%',
-        height: '100%',
-        zIndex: 0
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     />
   );
