@@ -1,7 +1,7 @@
 import { F90 } from './F90';
 import { E39 } from './E39';
 import { R34 } from './R34';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import './welcome.css';
 import { SiVercel } from 'react-icons/si';
 import { SkillsHoneycomb } from './SkillsHoneycomb';
@@ -46,6 +46,25 @@ export function Welcome() {
   const [projectIndex, setProjectIndex] = useState(0);
   const [highlightedSkills, setHighlightedSkills] = useState<string[]>([]);
 
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const resetAutoScroll = useCallback(() => {
+    if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+    if (viewState === 'projects') {
+      autoScrollRef.current = setInterval(() => {
+        setProjectIndex((i) => (i + 1) % projects.length);
+      }, 3000);
+    }
+  }, [viewState]);
+
+  // Auto-scroll projects
+  useEffect(() => {
+    resetAutoScroll();
+    return () => {
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+    };
+  }, [resetAutoScroll]);
+
   // Update highlighted skills when project changes
   useEffect(() => {
     if (viewState === 'projects') {
@@ -69,10 +88,12 @@ export function Welcome() {
 
   const nextProject = () => {
     setProjectIndex((i) => (i + 1) % projects.length);
+    resetAutoScroll();
   };
 
   const prevProject = () => {
     setProjectIndex((i) => (i - 1 + projects.length) % projects.length);
+    resetAutoScroll();
   };
 
   const project = projects[projectIndex];
@@ -168,7 +189,7 @@ export function Welcome() {
                   <span
                     key={i}
                     className={`project-dot ${i === projectIndex ? 'active' : ''}`}
-                    onClick={() => setProjectIndex(i)}
+                    onClick={() => { setProjectIndex(i); resetAutoScroll(); }}
                   />
                 ))}
               </div>
@@ -190,11 +211,8 @@ export function Welcome() {
               <p>
                 I'm a Senior Mathematics student at the University of British Columbia with a
                 deep passion for software engineering. I build full-stack applications that
-                solve real problems — from AI-powered platforms to event-driven microservices.
-              </p>
-              <p>
-                I thrive on learning new technologies, architecting clean systems, and
-                shipping products that people actually use.
+                solve real problems. I love to challenge myself with new technologies and
+                architecting clean systems.
               </p>
               <div className="about-links">
                 <a href="https://www.linkedin.com/in/krish--arora/" target="_blank" rel="noopener noreferrer" className="about-link">
@@ -205,7 +223,7 @@ export function Welcome() {
                   <i className="fa-brands fa-github"></i>
                   GitHub
                 </a>
-                <a href="https://drive.google.com/file/d/1obUiCDj8K6ntrpIBOsjba0V2CO9IEpBr/preview" target="_blank" rel="noopener noreferrer" className="about-link">
+                <a href="https://drive.google.com/file/d/1ztIaXjda7M771YHylI-Mm19Zdt7PQQxt/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="about-link">
                   <i className="fas fa-file-alt"></i>
                   Resume
                 </a>

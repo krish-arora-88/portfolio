@@ -40,7 +40,7 @@ const skills = [
   { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E' },
 ];
 
-const rowSizes = [4, 3, 4, 3, 4, 2];
+const rowSizes = [7, 6, 7];
 
 export function SkillsHoneycomb({ isVisible, highlightedSkills = [] }: SkillsHoneycombProps) {
   if (!isVisible) return null;

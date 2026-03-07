@@ -22,11 +22,9 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse at var(--spotlight-x, 50%) var(--spotlight-y, 55%),
-    rgba(0, 212, 255, 0.045) 0%,
-    transparent 55%
-  );
+  background: radial-gradient(ellipse at var(--spotlight-x, 50%) var(--spotlight-y, 55%),
+      rgba(0, 212, 255, 0.045) 0%,
+      transparent 55%);
   transition: background 800ms ease;
 }
 
@@ -134,11 +132,11 @@
 }
 
 .car-stage[data-state="projects"] {
-  transform: translateX(22%) scale(0.85);
+  transform: translate(18%, 12%) scale(0.85);
 }
 
 .car-stage[data-state="about"] {
-  transform: translateX(-22%) scale(0.85);
+  transform: translateX(-16%) scale(0.85);
 }
 
 .car-stage[data-state="contact"] {
@@ -215,13 +213,16 @@
   color: var(--color-muted);
   line-height: 1.5;
   margin-bottom: 1rem;
+  min-height: 2.7rem;
 }
 
 .project-tech {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 0.5rem;
   margin-bottom: 1.25rem;
+  min-height: 3.25rem;
 }
 
 .tech-pill {
@@ -420,6 +421,9 @@
   color: var(--color-muted);
   text-decoration: none;
   font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: color 300ms ease, transform 300ms ease;
 }
 
@@ -490,18 +494,19 @@
 /* ── Skills honeycomb positioning in projects state ── */
 .showroom-skills {
   position: absolute;
-  bottom: 1rem;
-  left: 3rem;
-  z-index: 5;
+  top: 3rem;
+  right: 15rem;
+  z-index: 3;
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(-10px) scale(0.85);
+  transform-origin: top right;
   transition: opacity 400ms ease 200ms, transform 400ms ease 200ms;
   pointer-events: none;
 }
 
 .showroom-skills.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(0.85);
   pointer-events: auto;
 }
 
@@ -516,9 +521,11 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 400ms ease;
 }
 
 .car-instance.active {
   opacity: 1;
+  pointer-events: auto;
 }

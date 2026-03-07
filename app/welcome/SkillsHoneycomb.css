@@ -1,6 +1,6 @@
 .skills-honeycomb {
   width: 100%;
-  max-width: 420px;
+  max-width: 700px;
   z-index: 10;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .honeycomb-row:last-child {
-  transform: translateX(-44px);
+  transform: none;
 }
 
 /* ── Hexagon base ── */
