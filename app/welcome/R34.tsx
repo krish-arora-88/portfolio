@@ -22,6 +22,7 @@ export function R34() {
     
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
     mountRef.current.appendChild(renderer.domElement);
 
     // Lighting
@@ -57,7 +58,35 @@ export function R34() {
       '/assets/CarModels/r34.glb',
       (gltf: GLTF) => {
         const model = gltf.scene;
-        
+
+        // Fix body color to Bayside Blue
+        model.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            const mesh = child as THREE.Mesh;
+            const mat = mesh.material as THREE.MeshStandardMaterial;
+            if (!mat.color) return;
+
+            // Skip glass/transparent materials (windows)
+            if (mat.transparent || mat.opacity < 1) return;
+
+            const hsl = { h: 0, s: 0, l: 0 };
+            mat.color.getHSL(hsl);
+
+            // Target opaque, saturated blue body panels only
+            if (hsl.h > 0.45 && hsl.h < 0.7 && hsl.s > 0.5) {
+              mat.color.setHSL(0.62, 0.95, 0.12);
+              mat.metalness = 0.6;
+              mat.roughness = 0.3;
+            }
+
+            // Boost red tail lamp materials (only highly saturated reds)
+            if ((hsl.h < 0.05 || hsl.h > 0.95) && hsl.s > 0.5) {
+              mat.color.setHSL(hsl.h, Math.min(hsl.s * 1.3, 1.0), hsl.l);
+              mat.emissive = new THREE.Color(0x220000);
+            }
+          }
+        });
+
         // Calculate the bounding box
         const box = new THREE.Box3().setFromObject(model);
         const size = box.getSize(new THREE.Vector3());
@@ -77,7 +106,7 @@ export function R34() {
         modelGroup.scale.set(scale, scale, scale);
         
         // Rotate the model 180 degrees around Y axis
-        modelGroup.rotation.y = Math.PI * 2;
+        modelGroup.rotation.y = Math.PI;
         
         // Center the model by moving it to the origin
         modelGroup.position.x = -center.x * scale;
