@@ -1,322 +1,260 @@
 import { F90 } from './F90';
 import { E39 } from './E39';
 import { R34 } from './R34';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import './welcome.css';
 import { SiVercel } from 'react-icons/si';
-import { ImageGallery } from './ImageGallery';
 import { SkillsHoneycomb } from './SkillsHoneycomb';
 
+type ViewState = 'home' | 'projects' | 'about' | 'contact';
+type CarModel = 'F90' | 'E39' | 'R34';
+
+const projects = [
+  {
+    title: 'DreamCar',
+    description: 'AI-powered platform that generates personalized car recommendations based on user preferences, with real-time pricing and dealer matching.',
+    image: '/assets/DreamCar.png',
+    link: 'https://dreamcar-lovat.vercel.app/',
+    skills: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'OpenAI API', 'Redis', 'TailwindCSS'],
+  },
+  {
+    title: 'PetAdopt BC',
+    description: 'Full-stack pet adoption platform connecting shelters with adopters across British Columbia, featuring secure authentication and search filters.',
+    image: '/assets/PetAdoptionHomePage.png',
+    link: 'https://pet-adoption-platform-two.vercel.app/',
+    skills: ['Node.js', 'Express.js', 'MongoDB', 'Passport.js', 'Mocha', 'Chai'],
+  },
+  {
+    title: 'Apex Go-Karting',
+    description: 'Event-driven booking system for go-karting venues with real-time availability, built with microservices architecture and message queuing.',
+    image: '/assets/Apex.png',
+    link: 'https://apex-racing-gokarting.vercel.app/',
+    skills: ['Spring Boot', 'Java', 'Next.js', 'Apache Kafka', 'Redis'],
+  },
+  {
+    title: 'UBConnect',
+    description: 'Mobile social app for university students to discover campus events, join clubs, and connect with peers in real-time.',
+    image: '/assets/UBConnect.png',
+    link: 'https://www.youtube.com/shorts/22sCW8aNNCk',
+    skills: ['React Native', 'TypeScript', 'Figma', 'Firebase', 'Jest'],
+  },
+];
+
 export function Welcome() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showAbout, setShowAbout] = useState(false);
-  const [isGalleryHighlighted, setIsGalleryHighlighted] = useState(false);
+  const [viewState, setViewState] = useState<ViewState>('home');
+  const [currentCar, setCurrentCar] = useState<CarModel>('F90');
+  const [projectIndex, setProjectIndex] = useState(0);
   const [highlightedSkills, setHighlightedSkills] = useState<string[]>([]);
-  const [currentCar, setCurrentCar] = useState<'F90' | 'E39' | 'R34'>('F90');
-  const skillsRef = useRef<HTMLDivElement>(null);
 
+  // Update highlighted skills when project changes
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        setShowAbout(!showAbout);
-        setIsMenuOpen(!isMenuOpen);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [showAbout]);
-
-  useEffect(() => {
-    if (showAbout && skillsRef.current) {
-      const progressBars = skillsRef.current.querySelectorAll('.progress-fill');
-      progressBars.forEach((bar) => {
-        const targetWidth = bar.getAttribute('data-progress') || '0';
-        setTimeout(() => {
-          (bar as HTMLElement).style.width = `${targetWidth}%`;
-        }, 100);
-      });
+    if (viewState === 'projects') {
+      setHighlightedSkills(projects[projectIndex].skills);
+    } else {
+      setHighlightedSkills([]);
     }
-  }, [showAbout]);
+  }, [projectIndex, viewState]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // Spotlight position based on state
+  const spotlightPositions: Record<ViewState, { x: string; y: string }> = {
+    home: { x: '50%', y: '55%' },
+    projects: { x: '70%', y: '50%' },
+    about: { x: '30%', y: '50%' },
+    contact: { x: '50%', y: '45%' },
   };
 
-  const handleAboutClick = () => {
-    setShowAbout(!showAbout);
-    setIsGalleryHighlighted(false);
+  const handleNavClick = (state: ViewState) => {
+    setViewState(state === viewState ? 'home' : state);
   };
 
-  const handleProjectsClick = () => {
-    setShowAbout(true);
-    setIsGalleryHighlighted(true);
-    setTimeout(() => {
-      setIsGalleryHighlighted(false);
-    }, 3000);
+  const nextProject = () => {
+    setProjectIndex((i) => (i + 1) % projects.length);
   };
 
-  const handleProjectChange = (skills: string[]) => {
-    setHighlightedSkills(skills);
+  const prevProject = () => {
+    setProjectIndex((i) => (i - 1 + projects.length) % projects.length);
   };
 
-  // Function to render the currently selected car component
-  const renderCarComponent = () => {
-    switch (currentCar) {
-      case 'E39':
-        return <E39 />;
-      case 'R34':
-        return <R34 />;
-      case 'F90':
-      default:
-        return <F90 />;
-    }
-  };
+  const project = projects[projectIndex];
 
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-      
-      {showAbout && (
-        <div className="social-icons-container" style={{
-          position: 'fixed',
-          top: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          gap: '2rem',
-          zIndex: 1000
-        }}>
-          <a href="https://www.linkedin.com/in/krish--arora/" target="_blank" rel="noopener noreferrer" className="social-icon">
-            <i className="fa-brands fa-linkedin"></i>
-          </a>
-          <a href="https://github.com/krish-arora-88" target="_blank" rel="noopener noreferrer" className="social-icon">
-            <i className="fa-brands fa-github"></i>
-          </a>
-          <a href="https://vercel.com/krish-arora" target="_blank" rel="noopener noreferrer" className="social-icon">
-            <SiVercel className="fa-brands fa-vercel"/>
-          </a>
-        </div>
-      )}
 
-      <div style={{ 
-        display: 'flex', 
-        width: '100vw', 
-        height: '100vh',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '0',
-        backgroundImage: 'url("/assets/ChatGPT Image May 8, 2025, 12_06_44 PM.png")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-      }}>
-        <div style={{ 
-          width: '33.33%', 
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative'
-        }}>
-          {showAbout && (
-            <div className={`text-box ${showAbout ? 'show' : ''}`} style={{
-              position: 'absolute',
-              bottom: '15%',
-              left: '45.5%',
-              transform: 'translateX(-50%)',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              padding: '20px',
-              borderRadius: '10px',
-              color: 'white',
-              width: '77%',
-              textAlign: 'center',
-              backdropFilter: 'blur(5px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              opacity: '0.8',
-            }}>
-              <div ref={skillsRef}>
-                <div className="skill-container">
-                  <div className="skill-name">Curiosity</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="75"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Eagerness to Learn</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="85"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Teamwork</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="80"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Adaptability</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="75"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Problem Solving</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="90"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Leadership</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="82"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Communication</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="88"></div>
-                  </div>
-                </div>
-                <div className="skill-container">
-                  <div className="skill-name">Time Management</div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" data-progress="72"></div>
-                  </div>
-                </div>
+      <div
+        className="showroom"
+        style={{
+          '--spotlight-x': spotlightPositions[viewState].x,
+          '--spotlight-y': spotlightPositions[viewState].y,
+        } as React.CSSProperties}
+      >
+        {/* Top bar */}
+        <div className="showroom-topbar">
+          <div className="showroom-name">Krish Arora</div>
+          <nav className="showroom-nav">
+            <button
+              className={viewState === 'projects' ? 'active' : ''}
+              onClick={() => handleNavClick('projects')}
+            >
+              Projects
+            </button>
+            <button
+              className={viewState === 'about' ? 'active' : ''}
+              onClick={() => handleNavClick('about')}
+            >
+              About
+            </button>
+            <button
+              className={viewState === 'contact' ? 'active' : ''}
+              onClick={() => handleNavClick('contact')}
+            >
+              Contact
+            </button>
+          </nav>
+        </div>
+
+        {/* Main stage */}
+        <div className="showroom-stage">
+          {/* 3D Car */}
+          <div className="car-stage" data-state={viewState}>
+            <div className="car-wrapper">
+              <div className={`car-instance ${currentCar === 'F90' ? 'active' : ''}`}>
+                <F90 />
+              </div>
+              <div className={`car-instance ${currentCar === 'E39' ? 'active' : ''}`}>
+                <E39 />
+              </div>
+              <div className={`car-instance ${currentCar === 'R34' ? 'active' : ''}`}>
+                <R34 />
               </div>
             </div>
-          )}
-        </div>
-        <div style={{ 
-          width: '33.33%', 
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative'
-        }}>
-          {renderCarComponent()}
-          {showAbout && (
-            <>
-              <div className={`text-box intro ${showAbout ? 'show' : ''}`} style={{
-                position: 'absolute',
-                top: '15%',
-                opacity: '0.85',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                padding: '20px',
-                borderRadius: '10px',
-                color: 'white',
-                width: '120%',
-                textAlign: 'center',
-                backdropFilter: 'blur(5px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)'
-              }}>
-                <h3>Hello!</h3>
-                <p>I'm Krish Arora, a Senior Mathematics student at the University of British Columbia, Vancouver. 
-                  With a passion for technology alongside a curious and eager to learn personality, I'm always looking 
-                  for new opportunities to grow and expand my knowledge. I have some quite interesting projects that 
-                  I'm proud of. Feel free to stick around and check them out!</p>
+          </div>
+
+          {/* Home tagline */}
+          <div className={`panel panel-home ${viewState === 'home' ? 'visible' : ''}`}>
+            <div className="home-tagline">Software Engineer · Creative Builder</div>
+          </div>
+
+          {/* Projects panel */}
+          <div className={`panel panel-projects ${viewState === 'projects' ? 'visible' : ''}`}>
+            <div className="project-card">
+              <div className="project-image-container">
+                <img src={project.image} alt={project.title} />
               </div>
-            </>
-          )}
-        </div>
-        <div style={{ 
-          width: '33.33%', 
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative'
-        }}>
-        </div>
-      </div>
+              <div className="project-info">
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-description">{project.description}</p>
+                <div className="project-tech">
+                  {project.skills.map((skill) => (
+                    <span key={skill} className="tech-pill">{skill}</span>
+                  ))}
+                </div>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-link"
+                >
+                  View Live
+                </a>
+              </div>
+            </div>
+            <div className="project-nav">
+              <button onClick={prevProject}>
+                <i className="fas fa-chevron-left"></i>
+              </button>
+              <div className="project-dots">
+                {projects.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`project-dot ${i === projectIndex ? 'active' : ''}`}
+                    onClick={() => setProjectIndex(i)}
+                  />
+                ))}
+              </div>
+              <button onClick={nextProject}>
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
 
-      {/* Menu Title */}
-      <div style={{
-        position: 'fixed',
-        top: '2rem',
-        right: '2rem',
-        color: 'white',
-        fontSize: '3rem',
-        letterSpacing: '2px',
-        userSelect: 'none',
-        zIndex: 1,
-        fontFamily: 'UnifrakturMaguntia, cursive',
-        fontWeight: '400',
-        fontStyle: 'normal'
-      }}>
-        main menu
-      </div>
+          {/* Skills honeycomb in projects state */}
+          <div className={`showroom-skills ${viewState === 'projects' ? 'visible' : ''}`}>
+            <SkillsHoneycomb isVisible={viewState === 'projects'} highlightedSkills={highlightedSkills} />
+          </div>
 
-      <ImageGallery 
-        isVisible={showAbout} 
-        isHighlighted={isGalleryHighlighted} 
-        onProjectChange={handleProjectChange}
-      />
+          {/* About panel */}
+          <div className={`panel panel-about ${viewState === 'about' ? 'visible' : ''}`}>
+            <div className="about-content">
+              <h2>Building Things<br />That <span>Matter</span></h2>
+              <p>
+                I'm a Senior Mathematics student at the University of British Columbia with a
+                deep passion for software engineering. I build full-stack applications that
+                solve real problems — from AI-powered platforms to event-driven microservices.
+              </p>
+              <p>
+                I thrive on learning new technologies, architecting clean systems, and
+                shipping products that people actually use.
+              </p>
+              <div className="about-links">
+                <a href="https://www.linkedin.com/in/krish--arora/" target="_blank" rel="noopener noreferrer" className="about-link">
+                  <i className="fa-brands fa-linkedin"></i>
+                  LinkedIn
+                </a>
+                <a href="https://github.com/krish-arora-88" target="_blank" rel="noopener noreferrer" className="about-link">
+                  <i className="fa-brands fa-github"></i>
+                  GitHub
+                </a>
+                <a href="https://drive.google.com/file/d/1obUiCDj8K6ntrpIBOsjba0V2CO9IEpBr/preview" target="_blank" rel="noopener noreferrer" className="about-link">
+                  <i className="fas fa-file-alt"></i>
+                  Resume
+                </a>
+              </div>
+            </div>
+          </div>
 
-      <SkillsHoneycomb 
-        isVisible={showAbout} 
-        highlightedSkills={highlightedSkills}
-      />
+          {/* Contact panel */}
+          <div className={`panel panel-contact ${viewState === 'contact' ? 'visible' : ''}`}>
+            <div className="contact-content">
+              <h2>Let's Connect</h2>
+              <a href="mailto:krisharora088@icloud.com" className="contact-email">
+                krisharora088@icloud.com
+              </a>
+              <div className="contact-links">
+                <a href="https://www.linkedin.com/in/krish--arora/" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <i className="fa-brands fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/krish-arora-88" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <i className="fa-brands fa-github"></i>
+                </a>
+                <a href="https://vercel.com/krish-arora" target="_blank" rel="noopener noreferrer" className="contact-link">
+                  <SiVercel />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      {/* Profile Button */}
-      <div className="welcome-container" style={{ top: '2rem', left: '2rem' }}>
-        <button className="name" onClick={toggleMenu}>
-          <img src="/assets/prof.jpg" alt="Profile" className="profile-image" />
-          <span className="text">Krish Arora</span>
-          <div className="tire-track"></div>
-        </button>
-      </div>
-      
-      {/* Car Selection Buttons */}
-      <div className={`car-selection-container ${isMenuOpen ? 'show' : ''}`}>
-        <button 
-          className={`car-select-button ${currentCar === 'F90' ? 'active' : ''}`} 
-          onClick={() => setCurrentCar('F90')}
-        >
-          <img src="/assets/BMW.png" alt="BMW" className="brand-logo" />
-          <span>M5 F90</span>
-          <div className="tire-track"></div>
-        </button>
-        <button 
-          className={`car-select-button ${currentCar === 'E39' ? 'active' : ''}`} 
-          onClick={() => setCurrentCar('E39')}
-        >
-          <img src="/assets/BMW.png" alt="BMW" className="brand-logo" />
-          <span>M5 E39</span>
-          <div className="tire-track"></div>
-        </button>
-        <button 
-          className={`car-select-button ${currentCar === 'R34' ? 'active' : ''}`} 
-          onClick={() => setCurrentCar('R34')}
-        >
-          <img src="/assets/nissan.png" alt="Nissan" className="brand-logo" />
-          <span>GTR R34</span>
-          <div className="tire-track"></div>
-        </button>
-      </div>
-      
-      {/* Bottom Menu */}
-      <div className={`bottom-menu ${isMenuOpen ? 'show' : ''}`}>
-        <div className="menu-item">
-          <a onClick={handleAboutClick}>About</a>
-          <div className="tire-track"></div>
-        </div>
-        <div className="menu-item">
-          <a href='https://drive.google.com/file/d/1obUiCDj8K6ntrpIBOsjba0V2CO9IEpBr/preview' target="_blank">Resume</a>
-          <div className="tire-track"></div>
-        </div>
-        <div className="menu-item">
-          <a onClick={handleProjectsClick}>Projects</a>
-          <div className="tire-track"></div>
-        </div>
-        <div className="menu-item">
-          <a href='mailto:krisharora088@icloud.com' target="_blank">Contact Me</a>
-          <div className="tire-track"></div>
+        {/* Car selector */}
+        <div className="car-selector">
+          <button
+            className={currentCar === 'F90' ? 'active' : ''}
+            onClick={() => setCurrentCar('F90')}
+          >
+            M5 F90
+          </button>
+          <button
+            className={currentCar === 'E39' ? 'active' : ''}
+            onClick={() => setCurrentCar('E39')}
+          >
+            M5 E39
+          </button>
+          <button
+            className={currentCar === 'R34' ? 'active' : ''}
+            onClick={() => setCurrentCar('R34')}
+          >
+            GTR R34
+          </button>
         </div>
       </div>
     </>
